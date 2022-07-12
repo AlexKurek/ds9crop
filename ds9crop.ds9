@@ -1,0 +1,5 @@
+# Crop region task
+Export region as png
+*
+bind x
+echo "$filename\n$regions(source,ds9,image)\n" | REPLACE | $text
