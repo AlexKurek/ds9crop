@@ -1,7 +1,7 @@
 Install:
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
-cd ds9crop
+cd ds9crop/
 sudo python setup.py install
 ```
 
