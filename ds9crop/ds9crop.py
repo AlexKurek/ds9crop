@@ -55,7 +55,7 @@ cutout = Cutout2D(image, center, siz, wcs = w)
 cutoutBitmap = cutout.data
 pngFname = fNamePart + "_cutout.png"
 if not (pyds9.ds9_targets()):
-    print('Unable to fetch scale limits, using default  <-0.001, 0.01>')
+    print('Unable to fetch scale limits, using default  <-0.001, 0.01>  and linear scale')
     vMin = -0.001
     vMax = 0.01
 else:
