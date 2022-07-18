@@ -1,3 +1,4 @@
 build/
 ds9crop.egg-info/
 *.fits
+*.png
