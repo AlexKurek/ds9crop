@@ -2,4 +2,4 @@
 Export region as png
 *
 bind x
-echo "$filename\n$regions(source,ds9,image)\n" | REPLACE | $text
+echo "$filename\n$regions(source,ds9,image)\n" | REPLACE/ds9crop.py |& $text
