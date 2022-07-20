@@ -1,4 +1,5 @@
 ## Install
+Install from pip or manually:
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
