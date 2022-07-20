@@ -55,7 +55,7 @@ cutout = Cutout2D(image, center, siz, wcs = w)
 cutoutBitmap = cutout.data
 pngFname = fNamePart + "_cutout.png"
 if not (pyds9.ds9_targets()):
-    print('Unable to fetch scale limits, using default  <-0.001, 0.01>  and linear scale')
+    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
     vMin = -0.001
     vMax = 0.01
 else:
@@ -63,7 +63,7 @@ else:
     print('Connected to DS9 instance', str(d))
     scaleMode = d.get ('scale')
     if scaleMode != 'linear':
-        print('Detected other scale mode that linear. Conversion is not supported so png will still be written in linear scale')
+        print('Detected other scale mode than linear. Conversion is not supported so png file will still be written in linear scale')
     scaleLimits = d.get ('scale limits')
     scaleLimits = scaleLimits.split(' ')
     vMin = scaleLimits[0]
