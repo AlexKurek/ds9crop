@@ -18,7 +18,7 @@ class post_install(install):
 setup(name='ds9crop',
       author = 'Aleksander Kurek',
       description = 'Exporting regions as FITS and png',
-      download_url = '',
+      download_url = 'https://github.com/AlexKurek/ds9crop/archive/refs/tags/v0.1.tar.gz',
       version = '0.1',
       packages = ['ds9crop'],
       install_requires = ['astropy', 'imageio', 'numpy', 'pyregion', 'pyds9'],
