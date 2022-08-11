@@ -10,6 +10,9 @@ import pyregion
 import numpy as np
 import re
 import pyds9
+from pathlib import Path
+import subprocess
+
 
 fName = sys.stdin.readline().rstrip()
 # discard any ds9 qualifiers, since we can't use them
@@ -84,5 +87,25 @@ fitsFname = fNamePart + "_cutout.fits"
 hdu.writeto(fitsFname, overwrite = True)
 
 
-path, filename = os.path.split(fName)
-print('Done. Check:', path + '/')
+# verify
+pathPng  = Path(pngFname)
+pathFits = Path(fitsFname)
+if ( pathPng.is_file() and pathFits.is_file() ):
+    # path, filename = os.path.split(fName)
+    # print (path)
+    # print (fName)
+    # print('Done. Check:', path + '/')
+    print('Done. Check input folder for cutouts.')
+else:
+    sys.exit('Something went wrong, unable to find one or both cutouts.')
+
+
+# open cutouts
+print('Will open two popup windows to display cutouts.')
+args = ['ds9', pathFits]
+subprocess.Popen(args)
+try:
+   args = ['eog', pathPng]
+   subprocess.Popen(args)
+except:
+   print('Unable to open PNG cutout in Eye of Gnome (default image viewer in Ubuntu).')
