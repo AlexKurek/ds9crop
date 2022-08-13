@@ -106,7 +106,7 @@ cutoutHdr['ORIGIN']   = ORIGIN
 HISTORY = str(HISTORY)
 HISTORY = re.sub(r'\n', '', HISTORY)
 cutoutHdr['HISTORY']  = HISTORY
-cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9drop'
+cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9crop'
 hdu.writeto(fitsFname, overwrite = True)
 
 
