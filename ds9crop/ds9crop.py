@@ -32,7 +32,17 @@ except IOError as e:
     print(e)
     sys.exit()
 image = np.squeeze(fitsFile[0].data)
-w = wcs.WCS(fitsFile[0].header, naxis = 2)
+fitsHeader = fitsFile[0].header
+w = wcs.WCS(fitsHeader, naxis = 2)
+BSCALE   = fitsHeader['BSCALE']
+BZERO    = fitsHeader['BZERO']
+BUNIT    = fitsHeader['BUNIT']
+BTYPE    = fitsHeader['BTYPE']
+TELESCOP = fitsHeader['TELESCOP']
+OBSERVER = fitsHeader['OBSERVER']
+OBJECT   = fitsHeader['OBJECT']
+ORIGIN   = fitsHeader['ORIGIN']
+HISTORY  = fitsHeader['HISTORY']
 fitsFile.close()
 
 selectedReg = pyregion.parse(selectedReg)
@@ -84,6 +94,19 @@ imwrite(pngFname, cutoutBitmap, compression = 0)
 # fits
 hdu = fits.PrimaryHDU(data = cutout.data, header = cutout.wcs.to_header())
 fitsFname = fNamePart + "_cutout.fits"
+cutoutHdr = hdu.header
+cutoutHdr['BSCALE']   = BSCALE
+cutoutHdr['BZERO']    = BZERO
+cutoutHdr['BUNIT']    = BUNIT
+cutoutHdr['BTYPE']    = BTYPE
+cutoutHdr['TELESCOP'] = TELESCOP
+cutoutHdr['OBSERVER'] = OBSERVER
+cutoutHdr['OBJECT']   = OBJECT
+cutoutHdr['ORIGIN']   = ORIGIN
+HISTORY = str(HISTORY)
+HISTORY = re.sub(r'\n', '', HISTORY)
+cutoutHdr['HISTORY']  = HISTORY
+cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9drop'
 hdu.writeto(fitsFname, overwrite = True)
 
 
@@ -92,8 +115,6 @@ pathPng  = Path(pngFname)
 pathFits = Path(fitsFname)
 if ( pathPng.is_file() and pathFits.is_file() ):
     # path, filename = os.path.split(fName)
-    # print (path)
-    # print (fName)
     # print('Done. Check:', path + '/')
     print('Done. Check input folder for cutouts.')
 else:
