@@ -106,7 +106,7 @@ cutoutHdr['ORIGIN']   = ORIGIN
 HISTORY = str(HISTORY)
 HISTORY = re.sub(r'\n', '', HISTORY)
 cutoutHdr['HISTORY']  = HISTORY
-cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9drop'
+cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9crop'
 hdu.writeto(fitsFname, overwrite = True)
 
 
@@ -122,9 +122,17 @@ else:
 
 
 # open cutouts
-print('Will open two popup windows to display cutouts.')
-args = ['ds9', pathFits]
+# fits
+if ( pyds9.ds9_targets() ):
+    args = ['ds9', '-scale', 'limits', scaleLimits[0], scaleLimits[1], pathFits]
+    print(args)
+    print('Using fetched scale limits in new ds9 window.')
+else:
+    args = ['ds9', pathFits]
+    print('Using auto scale limits in new FITS ds9 window.')
 subprocess.Popen(args)
+
+# png
 try:
    args = ['eog', pathPng]
    subprocess.Popen(args)
