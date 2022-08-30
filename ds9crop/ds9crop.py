@@ -12,6 +12,7 @@ import re
 import pyds9
 from pathlib import Path
 import subprocess
+import datetime
 
 
 fName = sys.stdin.readline().rstrip()
@@ -69,6 +70,7 @@ cutoutBitmap = cutout.data
 pngFname = fNamePart + "_cutout.png"
 if not (pyds9.ds9_targets()):
     print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
 else:
@@ -106,7 +108,9 @@ cutoutHdr['ORIGIN']   = ORIGIN
 HISTORY = str(HISTORY)
 HISTORY = re.sub(r'\n', '', HISTORY)
 cutoutHdr['HISTORY']  = HISTORY
-cutoutHdr['HISTORY']  = 'After that a cutout was made using ds9crop'
+now = datetime.datetime.now()
+nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
+cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
 hdu.writeto(fitsFname, overwrite = True)
 
 
