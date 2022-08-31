@@ -35,15 +35,42 @@ except IOError as e:
 image = np.squeeze(fitsFile[0].data)
 fitsHeader = fitsFile[0].header
 w = wcs.WCS(fitsHeader, naxis = 2)
-BSCALE   = fitsHeader['BSCALE']
-BZERO    = fitsHeader['BZERO']
-BUNIT    = fitsHeader['BUNIT']
-BTYPE    = fitsHeader['BTYPE']
-TELESCOP = fitsHeader['TELESCOP']
-OBSERVER = fitsHeader['OBSERVER']
-OBJECT   = fitsHeader['OBJECT']
-ORIGIN   = fitsHeader['ORIGIN']
-HISTORY  = fitsHeader['HISTORY']
+try:
+    BSCALE   = fitsHeader['BSCALE']
+except:
+    pass
+try:
+    BZERO    = fitsHeader['BZERO']
+except:
+    pass
+try:
+    BUNIT    = fitsHeader['BUNIT']
+except:
+    pass
+try:
+    BTYPE    = fitsHeader['BTYPE']
+except:
+    pass
+try:
+    TELESCOP = fitsHeader['TELESCOP']
+except:
+    pass
+try:
+    OBSERVER = fitsHeader['OBSERVER']
+except:
+    pass
+try:
+    OBJECT   = fitsHeader['OBJECT']
+except:
+    pass
+try:
+    ORIGIN   = fitsHeader['ORIGIN']
+except:
+    pass
+try:
+    HISTORY  = fitsHeader['HISTORY']
+except:
+    pass
 fitsFile.close()
 
 selectedReg = pyregion.parse(selectedReg)
@@ -97,20 +124,47 @@ imwrite(pngFname, cutoutBitmap, compression = 0)
 hdu = fits.PrimaryHDU(data = cutout.data, header = cutout.wcs.to_header())
 fitsFname = fNamePart + "_cutout.fits"
 cutoutHdr = hdu.header
-cutoutHdr['BSCALE']   = BSCALE
-cutoutHdr['BZERO']    = BZERO
-cutoutHdr['BUNIT']    = BUNIT
-cutoutHdr['BTYPE']    = BTYPE
-cutoutHdr['TELESCOP'] = TELESCOP
-cutoutHdr['OBSERVER'] = OBSERVER
-cutoutHdr['OBJECT']   = OBJECT
-cutoutHdr['ORIGIN']   = ORIGIN
-HISTORY = str(HISTORY)
-HISTORY = re.sub(r'\n', '', HISTORY)
-cutoutHdr['HISTORY']  = HISTORY
-now = datetime.datetime.now()
-nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
-cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
+try:
+    cutoutHdr['BSCALE']   = BSCALE
+except NameError:
+    pass
+try:
+    cutoutHdr['BZERO']    = BZERO
+except NameError:
+    pass
+try:
+    cutoutHdr['BUNIT']    = BUNIT
+except NameError:
+    pass
+try:
+    cutoutHdr['BTYPE']    = BTYPE
+except NameError:
+    pass
+try:
+    cutoutHdr['TELESCOP'] = TELESCOP
+except NameError:
+    pass
+try:
+    cutoutHdr['OBSERVER'] = OBSERVER
+except NameError:
+    pass
+try:
+    cutoutHdr['OBJECT']   = OBJECT
+except NameError:
+    pass
+try:
+    cutoutHdr['ORIGIN']   = ORIGIN
+except NameError:
+    pass
+try:
+    HISTORY = str(HISTORY)
+    HISTORY = re.sub(r'\n', '', HISTORY)
+    cutoutHdr['HISTORY']  = HISTORY
+    now = datetime.datetime.now()
+    nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
+    cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
+except NameError:
+    pass
 hdu.writeto(fitsFname, overwrite = True)
 
 
