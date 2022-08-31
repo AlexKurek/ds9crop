@@ -108,13 +108,13 @@ if not (pyds9.ds9_targets()):
     print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
-if len(pyds9.ds9_targets()) >= 1:
+if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) >= 1:
     print('More thanb one instance of DS9 is running. For full functionality only one instance is supported.')
     print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
     print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
-if len(pyds9.ds9_targets()) == 1:
+if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) == 1:
     d = pyds9.DS9()
     print('Connected to DS9 instance', str(d))
     scaleMode = d.get ('scale')
