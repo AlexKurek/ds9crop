@@ -36,6 +36,14 @@ image = np.squeeze(fitsFile[0].data)
 fitsHeader = fitsFile[0].header
 w = wcs.WCS(fitsHeader, naxis = 2)
 try:
+    BMAJ     = fitsHeader['BMAJ']
+except:
+    pass
+try:
+    BMIN     = fitsHeader['BMIN']
+except:
+    pass
+try:
     BSCALE   = fitsHeader['BSCALE']
 except:
     pass
@@ -100,12 +108,18 @@ if not (pyds9.ds9_targets()):
     print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
-else:
+if len(pyds9.ds9_targets()) >= 1:
+    print('More thanb one instance of DS9 is running. For full functionality only one instance is supported.')
+    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
+    vMin = -0.001
+    vMax = 0.01
+if len(pyds9.ds9_targets()) == 1:
     d = pyds9.DS9()
     print('Connected to DS9 instance', str(d))
     scaleMode = d.get ('scale')
     if scaleMode != 'linear':
-        print('Detected other scale mode than linear. Conversion is not supported so png file will still be written in linear scale')
+        print('Detected other scale mode than linear. Conversion is not supported so .png file will still be written in linear scale')
     scaleLimits = d.get ('scale limits')
     scaleLimits = scaleLimits.split(' ')
     vMin = scaleLimits[0]
@@ -124,6 +138,14 @@ imwrite(pngFname, cutoutBitmap, compression = 0)
 hdu = fits.PrimaryHDU(data = cutout.data, header = cutout.wcs.to_header())
 fitsFname = fNamePart + "_cutout.fits"
 cutoutHdr = hdu.header
+try:
+    cutoutHdr['BMAJ']     = BMAJ
+except NameError:
+    pass
+try:
+    cutoutHdr['BMIN']     = BMIN
+except NameError:
+    pass
 try:
     cutoutHdr['BSCALE']   = BSCALE
 except NameError:
@@ -160,11 +182,11 @@ try:
     HISTORY = str(HISTORY)
     HISTORY = re.sub(r'\n', '', HISTORY)
     cutoutHdr['HISTORY']  = HISTORY
-    now = datetime.datetime.now()
-    nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
-    cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
 except NameError:
     pass
+now = datetime.datetime.now()
+nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
+cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
 hdu.writeto(fitsFname, overwrite = True)
 
 
