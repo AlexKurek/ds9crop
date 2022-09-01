@@ -60,6 +60,14 @@ try:
 except:
     pass
 try:
+    DATE_MAP = fitsHeader['DATE-MAP']
+except:
+    pass
+try:
+    RESTFRQ  = fitsHeader['RESTFRQ']
+except:
+    pass
+try:
     TELESCOP = fitsHeader['TELESCOP']
 except:
     pass
@@ -160,6 +168,14 @@ except NameError:
     pass
 try:
     cutoutHdr['BTYPE']    = BTYPE
+except NameError:
+    pass
+try:
+    cutoutHdr['DATE-MAP'] = DATE_MAP
+except NameError:
+    pass
+try:
+    cutoutHdr['RESTFRQ']  = RESTFRQ
 except NameError:
     pass
 try:
