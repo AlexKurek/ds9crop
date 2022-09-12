@@ -44,6 +44,10 @@ try:
 except:
     pass
 try:
+    BPA      = fitsHeader['BPA']
+except:
+    pass
+try:
     BSCALE   = fitsHeader['BSCALE']
 except:
     pass
@@ -152,6 +156,10 @@ except NameError:
     pass
 try:
     cutoutHdr['BMIN']     = BMIN
+except NameError:
+    pass
+try:
+    cutoutHdr['BPA']      = BPA
 except NameError:
     pass
 try:
