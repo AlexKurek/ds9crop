@@ -1,6 +1,10 @@
 ## Install
 Install from pip or manually:
 ```
+pip install git+https://github.com/AlexKurek/ds9crop
+```
+or
+```
 git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
 sudo python setup.py install
