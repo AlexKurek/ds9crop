@@ -1,7 +1,7 @@
 ## Install
 Install from pip or manually:
 ```
-pip install git+https://github.com/AlexKurek/ds9crop
+sudo pip install git+https://github.com/AlexKurek/ds9crop
 ```
 or
 ```
