@@ -34,6 +34,7 @@ except IOError as e:
     sys.exit()
 image = np.squeeze(fitsFile[0].data)
 fitsHeader = fitsFile[0].header
+fitsFile.close()
 w = wcs.WCS(fitsHeader, naxis = 2)
 try:
     BMAJ     = fitsHeader['BMAJ']
@@ -91,7 +92,6 @@ try:
     HISTORY  = fitsHeader['HISTORY']
 except:
     pass
-fitsFile.close()
 
 selectedReg = pyregion.parse(selectedReg)
 selectedRegCoordList = selectedReg[0].coord_list
@@ -110,41 +110,6 @@ center = coordinates.SkyCoord.from_pixel(selectedRegCoordList[0], selectedRegCoo
 print('Center is:', center)
 siz = [selectedRegCoordList[3], selectedRegCoordList[2]]
 cutout = Cutout2D(image, center, siz, wcs = w)
-
-
-# png
-cutoutBitmap = cutout.data
-pngFname = fNamePart + "_cutout.png"
-if not (pyds9.ds9_targets()):
-    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
-    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
-    vMin = -0.001
-    vMax = 0.01
-if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) >= 1:
-    print('More thanb one instance of DS9 is running. For full functionality only one instance is supported.')
-    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
-    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
-    vMin = -0.001
-    vMax = 0.01
-if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) == 1:
-    d = pyds9.DS9()
-    print('Connected to DS9 instance', str(d))
-    scaleMode = d.get ('scale')
-    if scaleMode != 'linear':
-        print('Detected other scale mode than linear. Conversion is not supported so .png file will still be written in linear scale')
-    scaleLimits = d.get ('scale limits')
-    scaleLimits = scaleLimits.split(' ')
-    vMin = scaleLimits[0]
-    vMax = scaleLimits[1]
-    vMin = float(re.sub(r'[^\x00-\x7F]+','-', vMin))
-    vMax = float(re.sub(r'[^\x00-\x7F]+','-', vMax))
-    print('Fetched scale limits:',  str(vMin) + ',', vMax)
-cutoutBitmap[cutoutBitmap > vMax] = vMax
-cutoutBitmap[cutoutBitmap < vMin] = vMin
-cutoutBitmap = (cutoutBitmap - vMin)/(vMax - vMin)
-cutoutBitmap = ((2**16-1)*cutoutBitmap).astype(np.uint16)
-cutoutBitmap = cutoutBitmap[::-1, :]
-imwrite(pngFname, cutoutBitmap, compression = 0)
 
 # fits
 hdu = fits.PrimaryHDU(data = cutout.data, header = cutout.wcs.to_header())
@@ -213,6 +178,40 @@ nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
 cutoutHdr['HISTORY']  = nowStr + ' a cutout was made using ds9crop'
 hdu.writeto(fitsFname, overwrite = True)
 
+# png
+cutoutBitmap = cutout.data
+pngFname = fNamePart + "_cutout.png"
+if not (pyds9.ds9_targets()):
+    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
+    vMin = -0.001
+    vMax = 0.01
+if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) >= 1:
+    print('More thanb one instance of DS9 is running. For full functionality only one instance is supported.')
+    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
+    vMin = -0.001
+    vMax = 0.01
+if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) == 1:
+    d = pyds9.DS9()
+    print('Connected to DS9 instance', str(d))
+    scaleMode = d.get ('scale')
+    if scaleMode != 'linear':
+        print('Detected other scale mode than linear. Conversion is not supported so .png file will still be written in linear scale')
+    scaleLimits = d.get ('scale limits')
+    scaleLimits = scaleLimits.split(' ')
+    vMin = scaleLimits[0]
+    vMax = scaleLimits[1]
+    vMin = float(re.sub(r'[^\x00-\x7F]+','-', vMin))
+    vMax = float(re.sub(r'[^\x00-\x7F]+','-', vMax))
+    print('Fetched scale limits:',  str(vMin) + ',', vMax)
+cutoutBitmap[cutoutBitmap > vMax] = vMax
+cutoutBitmap[cutoutBitmap < vMin] = vMin
+cutoutBitmap = (cutoutBitmap - vMin)/(vMax - vMin)
+cutoutBitmap = ((2**16-1)*cutoutBitmap).astype(np.uint16)
+cutoutBitmap = cutoutBitmap[::-1, :]
+imwrite(pngFname, cutoutBitmap, compression = 0)
+
 
 # verify
 pathPng  = Path(pngFname)
@@ -232,8 +231,8 @@ if ( pyds9.ds9_targets() ):
     print(args)
     print('Using fetched scale limits in new ds9 window.')
 else:
-    args = ['ds9', pathFits]
-    print('Using auto scale limits in new FITS ds9 window.')
+    args = ['ds9', '-scale', 'limits', str(vMin), str(vMax), pathFits]
+    print('Using default scale limits <-0.001, 0.01> in new FITS ds9 window.')
 subprocess.Popen(args)
 
 # png
