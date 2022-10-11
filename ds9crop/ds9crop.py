@@ -110,6 +110,7 @@ center = coordinates.SkyCoord.from_pixel(selectedRegCoordList[0], selectedRegCoo
 print('Center is:', center)
 siz = [selectedRegCoordList[3], selectedRegCoordList[2]]
 cutout = Cutout2D(image, center, siz, wcs = w)
+del(image)
 
 # fits
 hdu = fits.PrimaryHDU(data = cutout.data, header = cutout.wcs.to_header())
