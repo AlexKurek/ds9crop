@@ -227,14 +227,17 @@ else:
 
 # open cutouts
 # fits
-if ( pyds9.ds9_targets() ):
-    args = ['ds9', '-scale', 'limits', scaleLimits[0], scaleLimits[1], pathFits]
-    print(args)
-    print('Using fetched scale limits in new ds9 window.')
-else:
-    args = ['ds9', '-scale', 'limits', str(vMin), str(vMax), pathFits]
-    print('Using default scale limits <-0.001, 0.01> in new FITS ds9 window.')
-subprocess.Popen(args)
+try:
+    if ( pyds9.ds9_targets() ):
+        args = ['ds9', '-scale', 'limits', scaleLimits[0], scaleLimits[1], pathFits]
+        print(args)
+        print('Using fetched scale limits in popup windows.')
+    else:
+        args = ['ds9', '-scale', 'limits', str(vMin), str(vMax), pathFits]
+        print('Using default scale limits <-0.001, 0.01> in popup windows.')
+    subprocess.Popen(args)
+except:
+   print('Unable to open FITS cutout.')
 
 # png
 try:
