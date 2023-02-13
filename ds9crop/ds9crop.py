@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+A simple plugin for DS9. It allows to export a region as both FITS and png files
+"""
+
 import os
 import sys
 from astropy.io import fits
