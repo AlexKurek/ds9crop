@@ -2,6 +2,15 @@
 
 from setuptools import setup
 from setuptools.command.install import install
+import os.path
+
+description = 'Exporting regions of FITS files as both FITS and png files'
+long_description = description
+if os.path.exists('README.md'):
+    with open('README.md') as f:
+        long_description = f.read()
+
+
 
 class post_install(install):
     def run(self):
@@ -15,13 +24,28 @@ class post_install(install):
         os.system('sed -i -e s!REPLACE!' + codepath + '! ' + ds9path)
         os.system('chmod +x ' + codepath + '/*.py')
 
-setup(name='ds9crop',
+setup(
+      name = 'ds9crop',
       author = 'Aleksander Kurek',
-      description = 'Exporting regions as FITS and png',
-      download_url = 'https://github.com/AlexKurek/ds9crop/archive/refs/tags/v0.1.tar.gz',
+      description = description,
+      long_description = long_description,
+      url = 'https://github.com/AlexKurek/ds9crop',
       version = '0.1',
       packages = ['ds9crop'],
+      platforms = 'any',
       install_requires = ['astropy', 'imageio', 'numpy', 'pyregion', 'pyds9'],
+      classifiers = [
+                 'Programming Language :: Python :: 3',
+                 'Programming Language :: Python :: 3.8',
+                 'Programming Language :: Python :: 3.9',
+                 'Programming Language :: Python :: 3.10',
+                 'Programming Language :: Python :: 3.11',
+                 'Development Status :: 5 - Production/Stable',
+                 'Environment :: Plugins',
+                 'Natural Language :: English',
+                 'Intended Audience :: Science/Research',
+                 'Operating System :: POSIX :: Linux',
+                 'Topic :: Scientific/Engineering :: Astronomy'],
       data_files = [('ds9', ['ds9crop.ds9'])],
       cmdclass = {"install": post_install}
       )
