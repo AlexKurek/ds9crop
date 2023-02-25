@@ -1,4 +1,4 @@
-## Install
+## Global Install
 Install using pip:
 ```
 sudo pip install git+https://github.com/AlexKurek/ds9crop
@@ -10,6 +10,13 @@ cd ds9crop/
 sudo python setup.py install
 ```
 and add it to DS9 as any other analysis commands (http://ds9.si.edu/doc/ref/analysis.html).
+
+## Single user install
+```
+pip install git+https://github.com/AlexKurek/ds9crop
+```
+
+But note that the .ds9 file is copied to `~/.local/ds9/` instead of `/usr/local/ds9/`.
 
 ## Usage
 Launch DS9 e.g. like this:
