@@ -15,7 +15,7 @@ git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
 sudo python setup.py install
 ```
-and add it to DS9 as any other analysis commands (http://ds9.si.edu/doc/ref/analysis.html).
+and add it to DS9 like any other analysis commands (http://ds9.si.edu/doc/ref/analysis.html).
 ### Single user install
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
