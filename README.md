@@ -16,7 +16,7 @@ and add it to DS9 as any other analysis commands (http://ds9.si.edu/doc/ref/anal
 pip install git+https://github.com/AlexKurek/ds9crop
 ```
 
-But note that the .ds9 file is copied to `~/.local/ds9/` instead of `/usr/local/ds9/`.
+Note that the .ds9 file is copied to `~/.local/ds9/` instead of `/usr/local/ds9/`.
 
 ## Usage
 Launch DS9 e.g. like this:
