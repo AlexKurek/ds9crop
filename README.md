@@ -1,9 +1,7 @@
+Installation using pip is not working!
+
 ## Global Install
-Install using pip:
-```
-sudo pip install git+https://github.com/AlexKurek/ds9crop
-```
-or manually ([deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html#summary) but working):
+([deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html#summary) but working):
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
@@ -13,7 +11,9 @@ and add it to DS9 as any other analysis commands (http://ds9.si.edu/doc/ref/anal
 
 ## Single user install
 ```
-pip install git+https://github.com/AlexKurek/ds9crop
+git clone https://github.com/AlexKurek/ds9crop.git
+cd ds9crop/
+python setup.py install
 ```
 
 Note that the .ds9 file is copied to `~/.local/ds9/` instead of `/usr/local/ds9/`.
