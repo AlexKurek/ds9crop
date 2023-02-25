@@ -1,7 +1,7 @@
 Installation using pip is not working!
 
 ## Global Install
-([deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html#summary) but working):
+`python setup.py` is [deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html#summary) but working:
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
