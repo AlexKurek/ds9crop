@@ -3,7 +3,7 @@ Install using pip:
 ```
 sudo pip install git+https://github.com/AlexKurek/ds9crop
 ```
-or manually:
+or manually ([deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html#summary) but working):
 ```
 git clone https://github.com/AlexKurek/ds9crop.git
 cd ds9crop/
