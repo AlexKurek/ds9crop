@@ -20,6 +20,10 @@ class post_install(install):
         import os
         codepath = os.path.join(self.install_libbase, 'ds9crop')
         ds9path = os.path.join(self.install_data, 'ds9', 'ds9crop.ds9')
+        # This will print using python setup.py install, but won't show with pip:
+        # https://github.com/pypa/pip/blob/main/src/pip/_internal/utils/subprocess.py#L73
+        # https://stackoverflow.com/questions/44616823/how-to-print-warnings-and-errors-when-using-setuptools-pip
+        # https://stackoverflow.com/questions/59965769/print-a-message-from-setup-py-through-pip
         print('Path to .ds9 file is:', ds9path)
         os.system('sed -i -e s!REPLACE!' + codepath + '! ' + ds9path)
         os.system('chmod +x ' + codepath + '/*.py')
