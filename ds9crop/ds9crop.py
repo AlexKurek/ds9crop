@@ -106,7 +106,7 @@ if (selectedReg[0].name != 'box') and (selectedReg[0].name != 'circle'):
     print('Only box or circle shaped regions are supported')
     sys.exit()
 if (selectedReg[0].name == 'circle'):
-    print('Circle shaped region detected. Fitting a bounding box')
+    print('Circular region detected. Fitting a bounding box')
     selectedRegCoordList = [selectedRegCoordList[0], selectedRegCoordList[1], 2*selectedRegCoordList[2], 2*selectedRegCoordList[2], 0] # center X, center Y, width, height, angle
 
 
@@ -187,13 +187,13 @@ hdu.writeto(fitsFname, overwrite = True)
 cutoutBitmap = cutout.data
 pngFname = fNamePart + "_cutout.png"
 if not (pyds9.ds9_targets()):
-    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('Unable to retrieve scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
     print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
 if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) >= 1:
-    print('More thanb one instance of DS9 is running. For full functionality only one instance is supported.')
-    print('Unable to fetch scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
+    print('More than one instance of DS9 is running. Only one instance is supported for full functionality.')
+    print('Unable to retrieve scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
     print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
     vMin = -0.001
     vMax = 0.01
@@ -202,7 +202,7 @@ if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) == 1:
     print('Connected to DS9 instance', str(d))
     scaleMode = d.get ('scale')
     if scaleMode != 'linear':
-        print('Detected other scale mode than linear. Conversion is not supported so .png file will still be written in linear scale')
+        print('Detected scale mode other than linear. Conversion is not supported so .png file will still be written in linear scale')
     scaleLimits = d.get ('scale limits')
     scaleLimits = scaleLimits.split(' ')
     vMin = scaleLimits[0]
