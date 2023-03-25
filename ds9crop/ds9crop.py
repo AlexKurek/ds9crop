@@ -5,18 +5,18 @@ A simple plugin for DS9. It allows to export a region as both FITS and png files
 """
 
 import os
+import re
 import sys
+import datetime
+from pathlib import Path
+
+import numpy as np
+import pyregion
+from astropy import coordinates, wcs
 from astropy.io import fits
 from astropy.nddata import Cutout2D
-from astropy import coordinates, wcs
 from imageio import imwrite
-import pyregion
-import numpy as np
-import re
 import pyds9
-from pathlib import Path
-import subprocess
-import datetime
 
 
 f_name = sys.stdin.readline().rstrip()
