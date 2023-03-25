@@ -37,7 +37,6 @@ setup(
       url = 'https://github.com/AlexKurek/ds9crop',
       version = '0.1',
       packages = ['ds9crop'],
-      platforms = 'any',
       install_requires=[
           'astropy',
           'imageio',
