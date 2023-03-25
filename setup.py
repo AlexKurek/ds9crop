@@ -12,7 +12,6 @@ def get_long_description():
     return DESCRIPTION
 
 
-
 class PostInstall(install):
     def run(self):
         # Call parent 
