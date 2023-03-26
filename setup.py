@@ -24,7 +24,7 @@ class PostInstall(install):
         # https://github.com/pypa/pip/blob/main/src/pip/_internal/utils/subprocess.py#L73
         # https://stackoverflow.com/questions/44616823/how-to-print-warnings-and-errors-when-using-setuptools-pip
         # https://stackoverflow.com/questions/59965769/print-a-message-from-setup-py-through-pip
-        print('Path to the .ds9 file is:', ds9path)
+        print(f"Path to the .ds9 file is: {ds9path}")
         os.system('sed -i -e s!REPLACE!' + codepath + '! ' + ds9path)
         os.system('chmod +x ' + codepath + '/*.py')
 
