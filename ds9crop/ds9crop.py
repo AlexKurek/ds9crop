@@ -23,8 +23,8 @@ f_name = sys.stdin.readline().rstrip()
 # discard any ds9 qualifiers, since we can't use them
 f_name = re.sub(r'\[.*\]', '', f_name)
 selected_reg = sys.stdin.readline().rstrip()
-print('Filename is:', f_name)
-print('Region is:', selected_reg)
+print(f"Filename is: {f_name}")
+print(f"Region is: {selected_reg}")
 f_namePart = f_name[:len(f_name) - 5]
 
 if selected_reg == "":
@@ -111,7 +111,7 @@ if (selected_reg[0].name == 'circle'):
 
 
 center = coordinates.SkyCoord.from_pixel(selected_reg_coord_list[0], selected_reg_coord_list[1], wcs = w)
-print('Center is:', center)
+print(f"Center is: {center}")
 siz = [selected_reg_coord_list[3], selected_reg_coord_list[2]]
 cutout = Cutout2D(image, center, siz, wcs = w)
 del(image)
@@ -188,18 +188,18 @@ cutout_bmp = cutout.data
 png_f_name = f_namePart + "_cutout.png"
 if not (pyds9.ds9_targets()):
     print('Unable to retrieve scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
-    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
+    print(f"pyds9.ds9_targets() are: {pyds9.ds9_targets()}")
     vMin = -0.001
     vMax = 0.01
 if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) >= 1:
     print('More than one instance of DS9 is running. Only one instance is supported for full functionality.')
     print('Unable to retrieve scale limits, using defaults:  <-0.001, 0.01>  and linear scale')
-    print('pyds9.ds9_targets() are:', pyds9.ds9_targets())
+    print(f"pyds9.ds9_targets() are: {pyds9.ds9_targets()}")
     vMin = -0.001
     vMax = 0.01
 if (pyds9.ds9_targets()) and (len(pyds9.ds9_targets())) == 1:
     d = pyds9.DS9()
-    print('Connected to DS9 instance', str(d))
+    print(f"Connected to DS9 instance {str(d)}")
     scaleMode = d.get ('scale')
     if scaleMode != 'linear':
         print('Detected scale mode other than linear. Conversion is not supported so .png file will still be written in linear scale')
